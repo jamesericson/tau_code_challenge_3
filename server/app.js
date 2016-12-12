@@ -5,7 +5,7 @@ var bodyParser = require( 'body-parser' );
 // create 'urlEncodedParser' in case we want to inject it for post calls:
 var urlEncodedParser = bodyParser.urlencoded( { extended: true } );
 // use bodyParser.urlencoded throughout the app with this:
-app.use( bodyParser.urlencoded( { extended: false } ) );
+app.use( bodyParser.urlencoded( { extended: true } ) );
 // initial jokes provided by the client
 jokes = [
   {
@@ -42,3 +42,14 @@ app.get( '/', function( req, res ){
 }); // end base url
 
 app.use( express.static( 'public' ) );
+
+app.get('/jokes', function(req, res){
+  console.log('jokes requested...');
+  res.send(jokes);
+})
+
+app.post( '/new', function( req, res){
+  console.log('recieved: ',req.body);
+  jokes.push(req.body);
+  res.send(jokes);
+});
